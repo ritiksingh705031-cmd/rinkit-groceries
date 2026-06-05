@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rinkit - Groceries in a Blink</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+  overflow-x: hidden;
+}
+
+/* Header Styles */
+header {
+  background: linear-gradient(135deg, #6c2bd9 0%, #8b5cf6 100%);
+  color: white;
+  padding: 15px 5%;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 8px 32px rgba(108, 43, 217, 0.3);
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  font-weight: 500;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background: #22c55e;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #6c2bd9 0%, #22c55e 100%);
+  padding: 100px 5%;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><circle cx="100" cy="100" r="80" fill="rgba(255,255,255,0.1)"/><circle cx="1100" cy="500" r="120" fill="rgba(255,255,255,0.1)"/></svg>');
+  opacity: 0.5;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero h1 {
+  font-size: 56px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  animation: slideInLeft 0.8s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.hero p {
+  font-size: 22px;
+  margin-bottom: 25px;
+  animation: slideInRight 0.8s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.search-box {
+  max-width: 700px;
+  margin: auto;
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.search-box input {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 50px;
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+/* Section Styles */
+.section {
+  padding: 60px 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.section-title {
+  font-size: 36px;
+  margin-bottom: 40px;
+  background: linear-gradient(135deg, #6c2bd9, #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: bold;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(135deg, #6c2bd9, #22c55e);
+  border-radius: 2px;
+  animation: expandWidth 0.8s ease-out;
+}
+
+@keyframes expandWidth {
+  from {
+    width: 0;
+  }
+  to {
+    width: 80px;
+  }
+}
+
+/* Categories */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.category {
+  background: white;
+  padding: 30px 20px;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid transparent;
+  font-size: 18px;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+}
+
+.category::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #6c2bd9, #22c55e);
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: -1;
+}
+
+.category:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(108, 43, 217, 0.3);
+  border-color: #6c2bd9;
+}
+
+.category:hover::before {
+  left: 0;
+  opacity: 0.1;
+}
+
+/* Products */
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.product {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 20px 50px rgba(108, 43, 217, 0.2);
+}
+
+.product img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: all 0.4s ease;
+}
+
+.product:hover img {
+  transform: scale(1.1);
+}
+
+.product-content {
+  padding: 20px;
+  position: relative;
+}
+
+.product-badge {
+  position: absolute;
+  top: -10px;
+  right: 15px;
+  background: linear-gradient(135deg, #ff6b6b, #ff8c42);
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.product h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.product p {
+  color: #666;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #6c2bd9, #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 15px 0;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  background: linear-gradient(135deg, #6c2bd9, #8b5cf6);
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #22c55e, #6c2bd9);
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(108, 43, 217, 0.3);
+}
+
+.btn:hover::before {
+  left: 0;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* Payment Section */
+.payment-section {
+  background: linear-gradient(135deg, rgba(108, 43, 217, 0.1), rgba(34, 197, 94, 0.1));
+  padding: 50px 40px;
+  border-radius: 20px;
+  border: 2px solid rgba(108, 43, 217, 0.2);
+  animation: fadeIn 1s ease-out;
+}
+
+.payment-section h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #333;
+}
+
+.payment-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.payment-item {
+  background: white;
+  padding: 20px 25px;
+  border-radius: 15px;
+  font-weight: 600;
+  color: #333;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.payment-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #6c2bd9, #22c55e);
+  opacity: 0.1;
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.payment-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(108, 43, 217, 0.2);
+  border-color: #6c2bd9;
+}
+
+.payment-item:hover::before {
+  left: 0;
+}
+
+/* Footer */
+footer {
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+  margin-top: 60px;
+  border-top: 3px solid #6c2bd9;
+}
+
+footer h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+footer p {
+  margin: 8px 0;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+footer p:hover {
+  opacity: 1;
+  color: #22c55e;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .section-title {
+    font-size: 26px;
+  }
+
+  .nav-links {
+    gap: 15px;
+    font-size: 12px;
+  }
+
+  .logo {
+    font-size: 24px;
+  }
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="logo">🛒 RINKIT</div>
+
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#categories">Categories</a>
+      <a href="#products">Offers</a>
+      <a href="#orders">Orders</a>
+      <a href="#profile">Profile</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <h1>🌿 Groceries in a Blink</h1>
+    <p>Fresh, Quality Groceries Delivered to Your Doorstep in Minutes!</p>
+
+    <div class="search-box">
+      <input type="text" placeholder="🔍 Search fruits, vegetables, dairy and more...">
+    </div>
+  </div>
+</section>
+
+<section class="section" id="categories">
+  <h2 class="section-title">Shop by Category</h2>
+
+  <div class="categories">
+    <div class="category">🍎 Fruits</div>
+    <div class="category">🥦 Vegetables</div>
+    <div class="category">🥛 Dairy</div>
+    <div class="category">🍪 Snacks</div>
+    <div class="category">🥤 Beverages</div>
+    <div class="category">🏠 Household</div>
+  </div>
+</section>
+
+<section class="section" id="products">
+  <h2 class="section-title">⭐ Popular Products</h2>
+
+  <div class="products">
+
+    <div class="product">
+      <div class="product-badge">FRESH</div>
+      <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=600" alt="Fresh Apples">
+      <div class="product-content">
+        <h3>Fresh Apples</h3>
+        <p>🥗 Premium Quality • 1 Kg Pack</p>
+        <div class="price">₹149</div>
+        <button class="btn">🛒 Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product">
+      <div class="product-badge">HOT DEAL</div>
+      <img src="https://images.unsplash.com/photo-1582515073490-dc47f2f926dc?w=600" alt="Milk">
+      <div class="product-content">
+        <h3>Fresh Milk</h3>
+        <p>🥛 Pure & Fresh • 500 ml</p>
+        <div class="price">₹35</div>
+        <button class="btn">🛒 Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product">
+      <div class="product-badge">ORGANIC</div>
+      <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=600" alt="Potatoes">
+      <div class="product-content">
+        <h3>Organic Potatoes</h3>
+        <p>🌱 Farm Fresh • 1 Kg</p>
+        <div class="price">₹29</div>
+        <button class="btn">🛒 Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product">
+      <div class="product-badge">NEW</div>
+      <img src="https://images.unsplash.com/photo-1599599810694-b3a7efc2b0b9?w=600" alt="Orange Juice">
+      <div class="product-content">
+        <h3>Orange Juice</h3>
+        <p>🍊 Freshly Pressed • 1 Liter</p>
+        <div class="price">₹85</div>
+        <button class="btn">🛒 Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product">
+      <div class="product-badge">BESTSELLER</div>
+      <img src="https://images.unsplash.com/photo-1542483139021-07fcb0fdf565?w=600" alt="Yogurt">
+      <div class="product-content">
+        <h3>Greek Yogurt</h3>
+        <p>🥄 Protein Rich • 400g</p>
+        <div class="price">₹99</div>
+        <button class="btn">🛒 Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product">
+      <div class="product-badge">SALE</div>
+      <img src="https://images.unsplash.com/photo-1557304552-a2b8e688e513?w=600" alt="Bread">
+      <div class="product-content">
+        <h3>Whole Wheat Bread</h3>
+        <p>🍞 Healthy • 400g</p>
+        <div class="price">₹45</div>
+        <button class="btn">🛒 Add to Cart</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="orders">
+  <div class="payment-section">
+    <h2>💳 Payment Options</h2>
+
+    <div class="payment-list">
+      <div class="payment-item">💵 Cash on Delivery</div>
+      <div class="payment-item">📱 UPI</div>
+      <div class="payment-item">🏦 Net Banking</div>
+      <div class="payment-item">💳 Credit/Debit Card</div>
+      <div class="payment-item">🏪 Wallet</div>
+    </div>
+  </div>
+</section>
+
+<footer id="profile">
+  <h2>🛒 RINKIT</h2>
+  <p>Groceries in a Blink ⚡</p>
+  <p>🚚 Fast Delivery • 🌿 Fresh Products • 💚 Best Prices</p>
+  <p>© 2026 All Rights Reserved | Made with ❤️</p>
+</footer>
+
+</body>
+</html>
